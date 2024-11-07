@@ -30,21 +30,29 @@ function fetchMonsters(page) {
     });
 }
 
-// Display the list of monsters in the result section
+// Display the list of monsters in a table format
 function displayMonsters(monsters) {
   if (monsters.length === 0) {
     monsterResult.innerHTML = "No monsters found.";
     return;
   }
 
-  monsterResult.innerHTML = "<h2>Monsters List</h2><ul>" +
-    monsters
-      .map(
-        (monster) =>
-          `<li onclick="fetchMonsterDetails('${monster.index}')">${monster.name}</li>`
-      )
-      .join("") +
-    "</ul>";
+  // Start creating the HTML for the table
+  let tableHTML = "<h2>Monsters List</h2><table><thead><tr><th>Name</th><th>Type</th><th>Challenge Rating</th></tr></thead><tbody>";
+  
+  tableHTML += monsters
+    .map(
+      (monster) =>
+        `<tr onclick="fetchMonsterDetails('${monster.index}')">
+          <td>${monster.name}</td>
+          <td>${monster.type}</td>
+          <td>${monster.challenge_rating || 'N/A'}</td>
+        </tr>`
+    )
+    .join("");
+
+  tableHTML += "</tbody></table>";
+  monsterResult.innerHTML = tableHTML;
 }
 
 // Fetch and display details of a specific monster
